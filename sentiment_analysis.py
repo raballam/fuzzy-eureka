@@ -37,27 +37,37 @@ sentiments = []
 for item in cleaned['processed.text']:
     polarity_score = analyze_polarity(item)
 
-    if polarity_score > 0:
+    if polarity_score > 0.8:
+        sentiment = 'very positive'
+    elif polarity_score > 0.5:
         sentiment = 'positive'
+    elif polarity_score > 0.2:
+        sentiment = 'somewhat positive'
+    elif polarity_score >= 0:
+        sentiment = 'neutral'
     elif polarity_score < 0:
         sentiment = 'negative'
-    else:
-        sentiment = 'neutral'
 
     sentiments.append(sentiment)
 
 # Counts positive, negative and neutral sentiments, uses length of sentiments list
 # to calculate percentages of each.
+very_positive_count = sentiments.count('very positive')
 positive_count = sentiments.count('positive')
-negative_count = sentiments.count('negative')
+somewhat_positive_count = sentiments.count('somewhat positive')
 neutral_count = sentiments.count('neutral')
+negative_count = sentiments.count('negative')
 
 total = len(sentiments)
+very_positive_perc = (very_positive_count / total) * 100
 positive_perc = (positive_count / total) * 100
-negative_perc = (negative_count / total) * 100
+somewhat_positive_perc = (somewhat_positive_count / total) * 100
 neutral_perc = (neutral_count / total) * 100
+negative_perc = (negative_count / total) * 100
 
-print(f"Positive percentage: {positive_perc:.2f}%")
+print(f"Very positive: {very_positive_perc:.2f}%")
+print(f"Positive: {positive_perc:.2f}%")
+print(f"Somewhat positive: {somewhat_positive_perc:.2f}%")
 print(f"Negative percentage: {negative_perc:.2f}%")
 print(f"Neutral percentage: {neutral_perc:.2f}%")
 
